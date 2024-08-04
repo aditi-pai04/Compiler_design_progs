@@ -1,48 +1,34 @@
 %option noyywrap
 %{
-#include <stdio.h>
-int posint = 0, negint = 0, posfrac = 0, negfrac = 0;
+#include<stdio.h>
+int pi=0,ni=0,pf=0,nf=0;
 %}
-
 num [0-9]+
-
 posint \+?{num}
 negint -{num}
-
-posnum \+?{num}\.{num}?|\+?\.{num}
-negnum -{num}\.{num}?|-\.{num}
-
+posnum \+?{num}?\.\+?{num}?
+negnum -{num}?\.{num}?
 %%
+{posint} {pi++;}
+{negint} {ni++;}
+{posnum} {pf++;}
+{negnum} {nf++;}
+{posint}\/{posint} {pf++;}
+{negint}\/{negint} {pf++;}
+{posnum}\/{posnum} {pf++;}
+{negnum}\/{negnum} {pf++;}
 
-{posint} posint++;
-
-{negint} negint++;
-
-{posnum} posfrac++;
-
-{negnum} negfrac++;
-
-{posnum}\/{posnum} |
-{posint}\/{posint} |
-{negint}\/{negint} |
-{negnum}\/{negnum} {posfrac++;}
-
-{posnum}\/{negnum} |
-{posint}\/{negint} |
-{negint}\/{posint} |
-{negnum}\/{posnum} {negfrac++;}
-
-[ \t\n]|[^#] ;
-
+{negint}\/{posint} {nf++;}
+{posint}\/{negint} {nf++;}
+{negnum}\/{posnum} {nf++;}
+{posnum}\/{negnum} {nf++;}
 # return 0;
-
 %%
-
 int main() {
-	yylex();
-	printf("Positive integers: %d\n", posint);
-	printf("Negative integers: %d\n", negint);
-	printf("Positive fractions: %d\n", posfrac);
-	printf("Negative fractions: %d\n", negfrac);
-	return 0;
+    printf("Enter list of numbers:\n");
+    yylex();
+    printf("Pi:%d\tNi:%d\tPf:%d\tNf:%d\n",pi,ni,pf,nf);
+    return 0;
 }
+
+

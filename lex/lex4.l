@@ -1,29 +1,25 @@
 %option noyywrap
 %{
-#include <stdio.h>
-
-int id = 0, op = 0, key = 0;
+#include<stdio.h>
+int keys=0,ids=0,ops=0;
 %}
-
 %%
-"void"|"int"|"float"|"double"|"for"|"while"|"do"|"char"|"if"|"else"|"exit"|"return"|"switch"|"case" { printf("Keyword: %s\n", yytext); key++; }
-"&&" | "<=" | ">=" | "==" | "||" { printf("Operator: %s\n", yytext); op++; }
-[\*\/\^\!\>\<\|\=\&]  { printf("Operator: %s\n", yytext); op++; }
-[\+\-]{1,2} { 
-    if (yytext[0] == '+' && yytext[1] == '+') { printf("Operator: %s\n", yytext); op++; }
-    else if (yytext[0] == '-' && yytext[1] == '-') { printf("Operator: %s\n", yytext); op++; }
-    else { printf("Operator: %s\n", yytext); op++; }
+"int"|"double"|"float"|"char"|"void"|"for"|"while"|"do"|"switch"|"case"|"if"|"else"|"exit"|"return" {printf("Keyword: %s\n",yytext);keys++;}
+"&&" | "||" | "<=" | "==" | ">=" {printf("Operator: %s\n",yytext);ops++;}
+[\*\/\<\>\!\^\&\|\=] {printf("Operator: %s\n",yytext);ops++;}
+[\+\-]{1,2} {
+    if (yytext[0]=='+' && yytext[1]=='+') {printf("Operator: %s\n",yytext);ops++;}
+    else if (yytext[0]=='-' && yytext[1]=='-') {printf("Operator: %s\n",yytext);ops++;}
+    else {printf("Operator: %s\n",yytext);ops++;}
 }
-
-[a-zA-Z_][a-zA-Z0-9_]* { printf("Id: %s\n", yytext); id++; }
+[a-zA-Z_][a-zA-Z0-9_]* {printf("Id: %s\n",yytext);ids++;}
+[^#] ;
 # return 0;
-[ \t\n] ; 
-. ; 
 %%
 
 int main() {
-    yyin= fopen("C:/Users/aditi/OneDrive/Desktop/cd_progs/lex/input.c", "r");
+    yyin= fopen("input.c", "r");
     yylex();
-    printf("Keywords: %d\tIds: %d\tOperators: %d\n", key, id, op);
+    printf("Keywords: %d\tIds: %d\tOperators: %d\n", keys, ids, ops);
     return 0;
 }

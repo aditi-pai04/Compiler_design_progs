@@ -1,38 +1,24 @@
+%option noyywrap
 %{
-#include <stdio.h>
-
-int comment_lines = 0;
+#include<stdio.h>
+int single=0,mline=0;
 %}
-
 %%
-"//"[^\n]*	{comment_lines++;}
-"/*"[^*#]*"*/"	{
-	for(int i=0;i<yyleng;i++)
-	{
-		if(yytext[i]=='\n')
-			comment_lines++;
-	}
-	}
-[^#\n] {
-    fprintf(yyout, "%s", yytext);
+"//"[^\n#]* single++;
+"/*"[^#]*"*/" {
+    for (int i=0;i<yyleng;i++) {
+        if(yytext[i]=='\n') mline++;
+    }
 }
-\n {
-    fprintf(yyout, "\n");
-}
+[^\n#] {fprintf(yyout,"%s",yytext);}
+\n {fprintf(yyout,"\n");}
 # return 0;
-
 %%
-
 int main() {
-    yyin=fopen("C:/Users/aditi/OneDrive/Desktop/cd_progs/lex/input.c", "r");
-    yyout = fopen("./output.c", "w");
-
+    yyout=fopen("output.c","w");
+    yyin=fopen("input.c","r");
     yylex();
-    printf("Number of comment lines: %d\n", comment_lines);
-
+    printf("Single:%d\tMulti:%d\n",single,mline);
     return 0;
 }
 
-int yywrap() {
-    return 1;
-}
