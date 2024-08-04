@@ -1,11 +1,10 @@
 %{
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
-int variable_count = 0;
-
-void yyerror(const char *s);
+#include<stdio.h>
+#include<stdio.h>
+#include<stdlib.h>
+void yyerror();
+int yylex(void);
+int cnt=0;
 %}
 
 %union {
@@ -13,48 +12,32 @@ void yyerror(const char *s);
 }
 
 %token <str> IDENTIFIER
-%token INT FLOAT CHAR DOUBLE COMMA SEMICOLON LBRACKET RBRACKET NUMBER
-
+%token INT FLOAT DOUBLE CHAR NUM COMMA SEMICOLON LBRACKET RBRACKET ID 
+%%
+S: declarations {printf("This is a declaration\n");}
+;
+declarations: declarations declaration SEMICOLON
+| declaration SEMICOLON {cnt++;}
+;
+declaration: type varlist
+;
+type: INT | DOUBLE| CHAR | FLOAT
+;
+varlist: varlist COMMA var {cnt++;}
+| var {cnt++;}
+;
+var: ID LBRACKET NUM RBRACKET
+| ID
+;
 %%
 
-program:
-    declarations
-    ;
-
-declarations:
-    declarations declaration SEMICOLON 
-    | declaration SEMICOLON { variable_count++; }
-    ;
-
-declaration:
-    type var_list
-    ;
-
-type:
-    INT
-    | FLOAT
-    | CHAR
-    | DOUBLE
-    ;
-
-var_list:
-    var { variable_count++; }
-    | var_list COMMA var { variable_count++; }
-    ;
-
-var:
-    IDENTIFIER LBRACKET NUMBER RBRACKET
-    | IDENTIFIER
-    ;
-
-%%
-
-void yyerror(const char *s) {
-    printf("Error: %s\n", s);
+void yyerror() {
+    printf("Invalid\n");
 }
 
 int main() {
     yyparse();
-    printf("Variables:%d\n",variable_count-1);
+    printf("Variables:%d\n",cnt-1);
     return 0;
 }
+

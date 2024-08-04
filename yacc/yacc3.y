@@ -1,48 +1,35 @@
 %{
-#include <stdio.h>
-#include <stdlib.h>
-int cnt = 0;
+#include<stdio.h>
+#include<stdlib.h>
+void yyerror();
 int yylex(void);
-void yyerror(const char *s);
+int cnt=0;
 %}
-
-%token FOR IDEN NUM UP UM
-
+%token FOR NUM ID UP UM
 %%
-
 S: S I {printf("Matched for loop\n");}
- |
- ; 
- 
-
-I: FOR A B { cnt++;  }
- ;
-
-A: '(' E ';' E ';' E ')' 
- ;
-
-E: IDEN Z IDEN
- | IDEN Z NUM
- | IDEN U
- | U IDEN
- | IDEN
- ;
-
-U: UP | UM
- ;
- 
-Z: '+'|'-'|'=''=' | '>' | '<' | '<''=' | '>''=' | '=''+' | '=''-'|'='|'*'|'/'
- ;
-
-
-B: '{' B '}' 
- | I 
- | E ';' 
- |
- ;
-
+|
+;
+I: FOR A B {cnt++;}
+;
+A: '(' E ';' E ';' E ')'
+;
+E: ID Z ID
+| ID Z NUM 
+| U ID 
+| ID U 
+| NUM
+;
+U: UP | UM;
+;
+Z: '+'|'-'|'=' '=' | '>' | '<' | '<' '=' | '>' '=' | '=' '+' | '=' '-'|'='|'*'|'/'
+;
+B: '{' B '}'
+| E ';' 
+| I 
+|
+;
 %%
-
 int main() {
     printf("Enter the snippet:\n");
     yyparse();
@@ -50,7 +37,7 @@ int main() {
     return 0;
 }
 
-void yyerror(const char *s) {
-    fprintf(stderr, "Invalid: %s\n", s);
-    exit(1);
+void yyerror() {
+    printf("Invalid:\n");
+    exit(0);
 }

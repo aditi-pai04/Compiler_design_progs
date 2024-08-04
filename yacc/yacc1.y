@@ -1,26 +1,24 @@
 %{
-    #include<stdio.h>
-    #include<stdlib.h>
-    void yyerror(const char *s);
-    int yylex(void);
+#include<stdio.h>
+void yyerror();
+int yylex(void);
 %}
 %%
-S:A B
+S: A B {printf("Accepted\n");}
 ;
-A:'a' A 'b'
+A: 'a' A 'b' 
 | 
 ;
-B: 'b' B 'c'
+B: 'b' B 'c' 
 | 
 ;
 %%
 int main() {
     printf("Enter string:\n");
     yyparse();
-    printf("Valid string!\n");
     return 0;
 }
-void yyerror(const char *s) {
-    printf("invalid string\n");
+void yyerror() {
+    printf("Invalid\n");
     exit(0);
 }

@@ -2,43 +2,42 @@
 #include<stdio.h>
 #include<stdlib.h>
 void yyerror();
-int cnt=0;
 int yylex(void);
-extern *yyin;
+int cnt=0;
 %}
-%token IF IDEN NUM UP UM
+%token IF NUM ID UP UM
 %%
-S:I
+S: I {printf("If statement\n");}
+|
 ;
-I:IF A B    {cnt++;}
+I: IF A B {cnt++;}
 ;
-A:'('E')'
+A: '(' E ')'
 ;
-E:IDEN Z IDEN
-|IDEN Z NUM
-|IDEN U
-|IDEN
+E: ID Z ID
+| ID Z NUM 
+| U ID 
+| ID U 
+| NUM
 ;
-Z:'='|'<'|'>'|'<''='|'>''='|'+''='|'-''='| '=''='| '+' |'-'|'*'|'/'
+U: UP | UM;
 ;
-U:UM|UP
+Z: '+'|'-'|'=' '=' | '>' | '<' | '<' '=' | '>' '=' | '+' '='  | '-' '='|'='|'*'|'/'
 ;
-B:B B
-|'{'B'}'
-|I
-|E';'
+B: '{' B '}'
+| E ';' 
+| I 
 |
 ;
 %%
-int main()
-{   //yyin=fopen("C:/Users/aditi/OneDrive/Desktop/cd_progs/lex/input.c", "r");
+int main() {
     printf("Enter the snippet:\n");
     yyparse();
-    printf("Count of if is %d\n",cnt);
+    printf("Count of if : %d\n", cnt);
     return 0;
 }
-void yyerror()
-{
+
+void yyerror() {
     printf("Invalid\n");
     exit(0);
 }

@@ -1,10 +1,11 @@
 %option noyywrap
 %{
-    #include "y.tab.h"
+#include "y.tab.h"
 %}
 %%
-"a" return 'a';
-"b" return 'b';
-. return yytext[0];
+'a' return 'a';
+'b' return 'b';
+'c' return 'c'; 
 \n return 0;
+. return yytext[0];
 %%
