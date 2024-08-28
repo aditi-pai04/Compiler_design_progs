@@ -1,6 +1,5 @@
 %{
 #include<stdio.h>
-#include<stdio.h>
 #include<stdlib.h>
 void yyerror();
 int yylex(void);
@@ -11,19 +10,19 @@ int cnt=0;
     char *str;
 }
 
-%token <str> IDENTIFIER
-%token INT FLOAT DOUBLE CHAR NUM COMMA SEMICOLON LBRACKET RBRACKET ID 
+%token <str> ID
+%token INT FLOAT DOUBLE CHAR NUM COMMA SEMICOLON LBRACKET RBRACKET 
 %%
-S: declarations {printf("This is a declaration\n");}
+S: declarations 
 ;
-declarations: declarations declaration SEMICOLON
-| declaration SEMICOLON {cnt++;}
+declarations: declarations declaration SEMICOLON {printf("This is a declaration\n");}
+| declaration SEMICOLON {printf("This is a declaration\n");}
 ;
 declaration: type varlist
 ;
 type: INT | DOUBLE| CHAR | FLOAT
 ;
-varlist: varlist COMMA var {cnt++;}
+varlist: varlist COMMA var  {cnt++;}
 | var {cnt++;}
 ;
 var: ID LBRACKET NUM RBRACKET
@@ -40,4 +39,3 @@ int main() {
     printf("Variables:%d\n",cnt-1);
     return 0;
 }
-
