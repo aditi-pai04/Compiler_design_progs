@@ -36,6 +36,6 @@ void yyerror() {
 
 int main() {
     yyparse();
-    printf("Variables:%d\n",cnt-1);
+    printf("Variables:%d\n",cnt);
     return 0;
 }
