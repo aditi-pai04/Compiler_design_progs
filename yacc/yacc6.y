@@ -42,7 +42,7 @@ void yyerror() {
 }
 
 int main() {
-	yyin =fopen("C:/Users/aditi/Downloads/Compiler_design_progs/lex3/input.c", "r");
+	//yyin =fopen("C:/Users/aditi/Downloads/Compiler_design_progs/lex3/input.txt", "r");
 	// Only if input is given from text file
 	yyparse();
 
@@ -57,7 +57,7 @@ string addToTable(string op1,string op2, char op) {
     idx++;
     if (op=='=') {
         code[idx].res=op1;
-        code[idx].op1=op1;
+        code[idx].op1=op2;
         code[idx].op2=" ";
         return op1;
     }
