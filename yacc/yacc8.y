@@ -1,8 +1,10 @@
 %{
 #include <stdio.h>
 #include <stdlib.h>
+int yylex();
+int yyerror();
 
-//extern FILE *yyin;
+extern FILE *yyin;
 
 typedef char *string;
 
@@ -28,11 +30,11 @@ void targetCode();
 
 %%
 
-STMTS	: STMTS STMT
+STMTS: STMTS STMT
 	|
 	;
 
-STMT	: EXP '\n'
+STMT: EXP '\n'
 	;
 
 EXP	: EXP '+' EXP { $$ = addToTable($1, $3, '+'); }
@@ -53,7 +55,7 @@ int yyerror(const char *s) {
 }
 
 int main() {
-	//yyin = fopen("8.txt", "r");
+	yyin = fopen("C:/Users/aditi/Downloads/Compiler_design_progs/lex3/input.txt","r");
 	yyparse();
 
 	printf("\nTarget code:\n");
