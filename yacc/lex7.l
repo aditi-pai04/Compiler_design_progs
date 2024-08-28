@@ -3,7 +3,7 @@
 #include "y.tab.h"
 %}
 %%
-"int"|"float"|"char"|"void" { printf("%s\n",yytext);return TYPE; }
+"int"|"float"|"char"|"void" {return TYPE; }
 "return" { return RET; }
 [a-zA-Z_][a-zA-Z_0-9]* { return ID; }
 [0-9]+ { return NUM; }
