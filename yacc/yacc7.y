@@ -1,46 +1,42 @@
 %{
-    #include<stdio.h>
-    #include<stdlib.h>
-    void yyerror();
-    int yylex(void);
-    extern *yyin;
+#include<stdio.h>
+#include<stdlib.h>
+void yyerror();
+int yylex(void);
+extern FILE *yyin;
 %}
-
-%token TYPE IDEN NUM RET
- 
+%token TYPE ID NUM RET
 %%
-S:FUN  {printf("Accepted\n");exit(0);}
+S: S I {printf("This is a function\n");}
+|
 ;
-FUN:TYPE IDEN '(' PARAM ')' '{' BODY '}'
+I: TYPE ID '(' PARAM ')' '{' BODY '}'
 ;
 PARAM: PARAM ',' PARAM
-|TYPE IDEN
+| TYPE ID 
 |
 ;
 BODY: BODY BODY
 | PARAM ';'
 | E ';'
 | RET E ';'
-|
+| 
 ;
-E: IDEN '=' E
-| E '+' E
-| E '-' E
-| E '*' E
+E: E '+' E 
+| E '-' E 
+| E '*' E 
 | E '/' E
-| IDEN
+| ID '=' E 
 | NUM
+| ID 
 ;
 %%
-int main()
-{   //yyin =fopen("C:/Users/aditi/OneDrive/Desktop/cd_progs/lex/input.c", "r");
-    printf("enter input: ");
+int main() {
+    printf("Enter input:\n");
     yyparse();
-    printf("successfull\n");
     return 0;
 }
-void yyerror()
-{
-    printf("ERROR\n");
+void yyerror() {
+    printf("Invalid\n");
     exit(0);
 }
