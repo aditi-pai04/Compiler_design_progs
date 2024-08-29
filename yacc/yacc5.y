@@ -3,39 +3,31 @@
 #include<stdlib.h>
 void yyerror();
 int yylex(void);
-int cnt=0;
+int c=0;
 %}
-
-%union {
-    char *str;
-}
-
-%token <str> ID
-%token INT FLOAT DOUBLE CHAR NUM COMMA SEMICOLON LBRACKET RBRACKET 
+%token NUM ID KEY SC COMMA LBRAC RBRAC
 %%
-S: declarations 
+S: declarations
 ;
-declarations: declarations declaration SEMICOLON {printf("This is a declaration\n");}
-| declaration SEMICOLON {printf("This is a declaration\n");}
+declarations: declarations declaration {printf("This is a declaration\n");}
+| declaration {printf("This is a declaration\n");}
 ;
-declaration: type varlist
+declaration: KEY varlist SC;
 ;
-type: INT | DOUBLE| CHAR | FLOAT
+varlist: varlist COMMA var {c++;}
+| var {c++;}
 ;
-varlist: varlist COMMA var  {cnt++;}
-| var {cnt++;}
-;
-var: ID LBRACKET NUM RBRACKET
+var: ID LBRAC NUM RBRAC
 | ID
 ;
 %%
-
+int main() {
+    printf("Enter input:\n");
+    yyparse();
+    printf("Count:%d\n",c);
+    return 0;
+}
 void yyerror() {
     printf("Invalid\n");
-}
-
-int main() {
-    yyparse();
-    printf("Variables:%d\n",cnt);
-    return 0;
+    exit(0);
 }
