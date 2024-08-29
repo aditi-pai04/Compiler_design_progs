@@ -3,17 +3,13 @@
 #include "y.tab.h"
 %}
 %%
-"int" return INT;
-"float" return FLOAT;
-"char" return CHAR;
-"double" return DOUBLE;
-"," return COMMA;
-";" return SEMICOLON;
-"[" return LBRACKET;
-"]" return RBRACKET;
-[a-zA-Z_][a-zA-Z0-9_]* return ID;
+"int"|"float"|"char"|"double" return KEY;
 [0-9]+ return NUM;
+[a-zA-Z_][a-zA-Z0-9_]* return ID;
+"," return COMMA;
+";" return SC;
+"[" return LBRAC;
+"]" return RBRAC;
 # return 0;
-[ \t\n]+ ;
+[\t \n]+ ;
 . return yytext[0];
-%%
