@@ -12,7 +12,7 @@ S: declarations
 declarations: declarations declaration {printf("This is a declaration\n");}
 | declaration {printf("This is a declaration\n");}
 ;
-declaration: KEY varlist SC;
+declaration: KEY varlist SC
 ;
 varlist: varlist COMMA var {c++;}
 | var {c++;}
