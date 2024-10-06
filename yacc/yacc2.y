@@ -6,7 +6,7 @@ int yylex(void);
 %}
 %token NUM
 %left '+' '-'
-%right '*' '/'
+%left '*' '/'
 %%
 S: I {printf("Result is %d\n",$$);}
 ;
