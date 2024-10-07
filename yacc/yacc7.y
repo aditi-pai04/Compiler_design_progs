@@ -3,24 +3,25 @@
 #include<stdlib.h>
 void yyerror();
 int yylex(void);
-extern FILE *yyin;
 %}
-%token TYPE ID NUM RET
+%token NUM ID RET TYPE
 %%
-S: S I {printf("This is a function\n");}
+S: S I 
 |
 ;
-I: TYPE ID '(' PARAM ')' '{' BODY '}'
+I: TYPE ID '(' PARAMS ')' '{' BODY '}' {printf("This is a function\n");}
 ;
-PARAM: PARAM ',' PARAM
-| TYPE ID 
+PARAMS: PARAMS ',' PARAM
+| PARAM 
 |
+;
+PARAM: TYPE ID 
 ;
 BODY: BODY BODY
 | PARAM ';'
 | E ';'
 | RET E ';'
-| 
+|
 ;
 E: E '+' E 
 | E '-' E 
@@ -32,10 +33,11 @@ E: E '+' E
 ;
 %%
 int main() {
-    printf("Enter input:\n");
+    printf("Enter the snippet:\n");
     yyparse();
     return 0;
 }
+
 void yyerror() {
     printf("Invalid\n");
     exit(0);
