@@ -3,7 +3,8 @@
 #include "y.tab.h"
 %}
 %%
-"int"|"float"|"char"|"void" {return TYPE; }
+"int"|"float"|"char"|"double" {return TYPE; }
+"void" return VOID;
 "return " { return RET; } //space to account for a space after return 
 [a-zA-Z_][a-zA-Z_0-9]* { return ID; }
 [0-9]+ { return NUM; }
