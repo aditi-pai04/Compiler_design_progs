@@ -4,12 +4,16 @@
 void yyerror();
 int yylex(void);
 %}
-%token NUM ID RET TYPE
+%token NUM ID RET TYPE VOID
 %%
 S: S I 
 |
 ;
-I: TYPE ID '(' PARAMS ')' '{' BODY '}' {printf("This is a function\n");}
+I: TYPE ID '(' PARAMS ')' '{' BODY RET E ';' '}' {printf("This is a function\n");}
+| VOID ID '(' PARAMS ')' '{' BODY '}' {printf("This is a function\n");}
+| TYPE ID '(' PARAMS ')' RET E ';' {printf("This is a function\n");}
+| VOID ID '(' PARAMS ')' ';' {printf("This is a function\n");}
+| VOID ID '(' PARAMS ')' RET ';' {printf("This is a function\n");}
 ;
 PARAMS: PARAMS ',' PARAM
 | PARAM 
@@ -20,7 +24,6 @@ PARAM: TYPE ID
 BODY: BODY BODY
 | PARAM ';'
 | E ';'
-| RET E ';'
 |
 ;
 E: E '+' E 
