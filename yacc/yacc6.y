@@ -19,7 +19,8 @@ void quadruples();
 }
 %token <exp> ID NUM;
 %type <exp> EXP 
-%left '+' '-' '*' '/' 
+%left '+' '-' 
+%left '*' '/' 
 %%
 STMTS: STMTS STMT 
 |
